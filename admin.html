@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>피오티랩 휠체어 설문 관리자</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--bg:#F5F3EE;--card:#fff;--ink:#1B2220;--sub:#66706C;--mute:#9AA29E;--line:#E5E1D8;--acc:#1F4A37;--acc-soft:#E6EFE8;--acc-ink:#163A2A;--lime:#D3EC6A;--warm:#D98E2B;--warm-soft:#FBF1E2;--err:#C24A3A;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;font-size:15px;line-height:1.55;word-break:keep-all}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+.brand{font-weight:800;letter-spacing:-.01em;font-size:15px;color:var(--acc-ink)}.brand i{font-style:normal;color:var(--acc);font-weight:600;margin-left:4px;font-size:13px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+header h1{font-size:20px;margin:0}
+header .sp{flex:1}
+.period{font-size:13px;color:var(--sub);margin:0 0 16px}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.pri{background:var(--acc);color:#fff;box-shadow:none}
+a.btn{color:var(--ink)}
+.login{max-width:360px;margin:12vh auto 0;background:var(--card);border-radius:20px;padding:28px 24px;box-shadow:0 8px 28px rgba(20,30,25,.07);text-align:center}
+.login input{width:100%;text-align:center;font-size:22px;letter-spacing:.4em;padding:12px;border:1.5px solid var(--line);border-radius:12px;margin:16px 0 12px;outline:none}
+.login input:focus{border-color:var(--acc)}
+.login .btn{width:100%;padding:13px}
+.err{color:var(--err);font-size:13.5px;min-height:20px;margin-top:8px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
+.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-weight:600;cursor:pointer;font-size:14px}
+.tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border-radius:16px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.kpi small{color:var(--sub);font-size:13px}
+.kpi b{display:block;font-size:28px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi em{font-style:normal;font-size:12px;color:var(--mute)}
+.kpi.acc{background:var(--acc-soft)}
+.kpi.warm{background:var(--warm-soft)}
+h2{font-size:16px;margin:26px 0 10px;color:var(--sub);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+.card{background:var(--card);border-radius:16px;padding:18px 18px 14px;box-shadow:0 1px 2px rgba(0,0,0,.03);min-width:0}
+.card h3{font-size:15px;margin:0 0 2px}
+.card .n{font-size:12.5px;color:var(--mute);margin:0 0 12px}
+.row{display:grid;grid-template-columns:minmax(0,11em) 1fr 5.6em;gap:10px;align-items:center;margin:7px 0;font-size:13.5px}
+.row .lb{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .tr{height:10px;background:#F1EEE7;border-radius:99px;overflow:hidden}
+.row .tr div{height:100%;background:var(--acc);border-radius:99px}
+.row .v{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;color:var(--sub)}
+.row .v b{color:var(--ink)}
+.avg{font-size:13px;color:var(--sub);margin-top:8px}
+.texts{max-height:320px;overflow:auto;margin:0;padding:0;list-style:none}
+.texts li{font-size:13.5px;padding:9px 0;border-top:1px solid var(--line)}
+.texts li:first-child{border-top:0}
+.texts li small{color:var(--mute);margin-left:6px}
+.empty{color:var(--mute);font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:left;padding:9px 8px;border-top:1px solid var(--line);white-space:nowrap}
+th{color:var(--sub);font-weight:600;border-top:0}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+td small{color:var(--mute);font-size:11.5px;margin-left:3px}
+tfoot td{font-weight:700;border-top:2px solid var(--line)}
+.tbl{overflow:auto}
+.heat{display:inline-block;min-width:3.2em;padding:2px 6px;border-radius:6px}
+.note{font-size:12.5px;color:var(--mute);margin-top:10px}
+.days .row{grid-template-columns:5.5em 1fr 5.6em}
+.fast{margin-left:auto;font-size:13.5px;color:var(--sub);display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.fast input{accent-color:var(--acc);width:16px;height:16px}
+.warnbox{background:var(--warm-soft);border-radius:14px;padding:12px 14px;font-size:13px;color:#7A4E12;margin:0 0 16px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}.row{grid-template-columns:minmax(0,8em) 1fr 5.2em}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="login" id="login">
+    <div class="brand">피오티랩<i>POT LAB</i></div>
+    <h1 style="font-size:19px;margin:10px 0 0">설문 관리자</h1>
+    <input type="password" id="pw" maxlength="20" placeholder="••••" autocomplete="current-password">
+    <button class="btn pri" id="go">들어가기</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+<script>
+/* ★ index.html과 같은 웹 앱 주소를 붙여 넣으세요 */
+const SCRIPT_URL = 'PASTE_WEB_APP_URL_HERE';
+
+/* 칸 이름 (index.html 의 Q[*].col 과 글자까지 같아야 함) */
+const C = { role:'1 응답자 유형', exp:'3 위험 경험', need:'8 필요성', intent:'9 사용 의향', consider:'10 고려 사항', rel:'출시 알림 신청', raffle:'추첨 응모', help:['7A 업무 도움','7B 이용 도움','7C 안전 도움'] };
+const GROUPS = ['의료인','의료기사','휠체어 사용자','보호자·가족','기타'];
+const EXP_YES = ['직접 경험한 적이 있다','다른 사람의 상황을 목격한 적이 있다','직접 경험과 목격 모두 있다'];
+const INTENT_YES = ['적극적으로 도입·사용해 보고 싶다','조건이 적절하다면 도입·사용할 의향이 있다'];
+const META = ['응답ID','시각','소요(초)','응답 품질'];
+const SEC_ORDER = ['공통 문항','의료인·의료기사 문항','휠체어 사용자 문항','보호자·가족 문항','마무리 문항','신청·유입'];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let DATA=null, PW='', FILTER='전체', HIDE_FAST=true;
+const FAST_SEC = 10;   // 이 초 미만 응답을 「빠른 응답」으로 봄 (소요(초) 칸 기준)
+
+function jsonp(url){
+  return new Promise((res,rej)=>{
+    const cb='cb_'+Date.now()+'_'+Math.floor(Math.random()*1e5), s=document.createElement('script');
+    const t=setTimeout(()=>{clean();rej(new Error('시간 초과'))},20000);
+    function clean(){clearTimeout(t);try{delete window[cb]}catch(e){window[cb]=undefined}s.remove();}
+    window[cb]=d=>{clean();res(d)}; s.onerror=()=>{clean();rej(new Error('연결 실패'))};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb; document.body.appendChild(s);
+  });
+}
+async function load(){
+  if (/PASTE_/.test(SCRIPT_URL)) throw new Error('admin.html 의 SCRIPT_URL 이 아직 비어 있어요.');
+  const r = await jsonp(`${SCRIPT_URL}?action=stats&pw=${encodeURIComponent(PW)}`);
+  if (!r.ok) throw new Error(r.err||'실패');
+  DATA = r;
+}
+$('#go').onclick = login;
+$('#pw').onkeydown = e => { if (e.key==='Enter') login(); };
+async function login(){
+  PW = $('#pw').value.trim(); $('#err').textContent='확인 중…';
+  try{ await load(); draw(); }catch(e){ $('#err').textContent=e.message; }
+}
+
+/* ───────── 계산 ───────── */
+const pct = (n,d) => d ? Math.round(n/d*100) : null;
+const pctTxt = (n,d) => d ? `${pct(n,d)}%` : '–';
+const avg = a => a.length ? (a.reduce((s,x)=>s+Number(x),0)/a.length) : null;
+function col(H,name){ return H.indexOf(name); }
+function roleOf(r,H){
+  const v = r[col(H,C.role)]||'';
+  return GROUPS.slice(0,4).includes(v) ? v : v ? '기타' : '';
+}
+function metrics(rs,H){
+  const iE=col(H,C.exp), iN=col(H,C.need), iI=col(H,C.intent), iR=col(H,C.rel), iF=col(H,C.raffle);
+  const hi = C.help.map(c=>col(H,c)).filter(i=>i>=0);
+  const ex = rs.map(r=>r[iE]).filter(Boolean), nd = rs.map(r=>r[iN]).filter(Boolean), it = rs.map(r=>r[iI]).filter(Boolean);
+  const hp = rs.map(r=>{ const i=hi.find(i=>r[i]!==''); return i===undefined?'':r[i]; }).filter(Boolean);
+  return {
+    n: rs.length,
+    expN: ex.filter(v=>EXP_YES.includes(v)).length, expD: ex.length,
+    needN: nd.filter(v=>v==='4'||v==='5').length, needD: nd.length, needAvg: avg(nd),
+    intN: it.filter(v=>INTENT_YES.includes(v)).length, intD: it.length,
+    helpAvg: avg(hp), helpD: hp.length,
+    rel: iR>=0 ? rs.filter(r=>/^네/.test(r[iR])).length : 0,
+    raffle: iF>=0 ? rs.filter(r=>/^네/.test(r[iF])).length : 0
+  };
+}
+
+/* ───────── 그리기 ───────── */
+function draw(){
+  const H = DATA.main.header;
+  const iq = col(H,'소요(초)'), iT = col(H,'시각');
+  const isFast = r => iq>=0 && r[iq]!=='' && Number(r[iq]) < FAST_SEC;
+  const fastN = DATA.main.rows.filter(isFast).length;
+  const all = HIDE_FAST ? DATA.main.rows.filter(r=>!isFast(r)) : DATA.main.rows;
+  const rows = FILTER==='전체' ? all : all.filter(r=>roleOf(r,H)===FILTER);
+  const M = metrics(rows,H);
+  const dates = rows.map(r=>(r[iT]||'').slice(0,10)).filter(Boolean).sort();
+
+  let h = `<header><span class="brand">피오티랩<i>POT LAB</i></span><h1>휠체어 설문 통계</h1><span class="sp"></span>
+    <button class="btn" id="csv">CSV 받기</button><a class="btn" href="${esc(DATA.sheetUrl)}" target="_blank" rel="noopener" style="text-decoration:none">시트 열기</a><button class="btn pri" id="re">새로고침</button></header>
+  <p class="period">조사 기간 ${dates.length?`${dates[0]} ~ ${dates[dates.length-1]}`:'–'} · ${FILTER==='전체'?'전체':FILTER} 응답 ${rows.length}건${HIDE_FAST&&fastN?` (${FAST_SEC}초 미만 ${fastN}건 제외)`:''}</p>
+  <div class="tabs">${['전체',...GROUPS].map(t=>`<button class="${FILTER===t?'on':''}" data-f="${t}">${t} <span style="opacity:.6">${t==='전체'?all.length:all.filter(r=>roleOf(r,H)===t).length}</span></button>`).join('')}
+    <label class="fast"><input type="checkbox" id="hideFast" ${HIDE_FAST?'checked':''}> ${FAST_SEC}초 미만 빠른 응답 빼고 보기 <b>(${fastN}건)</b></label></div>
+  <div class="kpis">
+    <div class="kpi"><small>응답 수</small><b>${M.n}</b></div>
+    <div class="kpi acc"><small>브레이크 위험 경험률</small><b>${pctTxt(M.expN,M.expD)}</b><em>3번 경험·목격·둘 다 ${M.expN}/${M.expD}</em></div>
+    <div class="kpi acc"><small>필요성 긍정 응답률</small><b>${pctTxt(M.needN,M.needD)}</b><em>8번 4·5점 ${M.needN}/${M.needD}${M.needAvg!=null?` · 평균 ${M.needAvg.toFixed(2)}`:''}</em></div>
+    <div class="kpi acc"><small>도입·사용 의향 긍정</small><b>${pctTxt(M.intN,M.intD)}</b><em>9번 앞의 두 보기 ${M.intN}/${M.intD}</em></div>
+    <div class="kpi warm"><small>출시 알림 신청</small><b>${M.rel}</b></div>
+    <div class="kpi warm"><small>☕ 커피 추첨 응모</small><b>${M.raffle}</b><em>100잔 추첨 대상</em></div>
+    <div class="kpi warm"><small>체험·도입 상담 신청</small><b>${DATA.iv.rows.length}</b><em>전체 기준</em></div>
+    <div class="kpi"><small>문의</small><b>${DATA.askCount||0}</b><em>전체 기준</em></div>
+  </div>`;
+
+  h += groupTable(H, all);
+  h += considerTable(H, all);
+
+  // 날짜별
+  const byDay = {}; dates.forEach(d=>byDay[d]=(byDay[d]||0)+1);
+  const days = Object.keys(byDay).sort();
+  h += `<h2>날짜별 응답</h2><div class="card days">${days.length?bars(days.map(d=>[d.slice(5),byDay[d]]), rows.length):'<p class="empty">아직 응답이 없습니다.</p>'}</div>`;
+
+  // 문항 묶기
+  const groups=[]; const seen={};
+  H.forEach((c,i)=>{
+    if (META.includes(c)) return;
+    let key=c, kind='single', opt=null;
+    const m = c.match(/^(.+?): (.+)$/);
+    if (m && /^\d+[A-C]? /.test(m[1])){ key=m[1]; opt=m[2]; kind = / \(적은 내용\)$/.test(opt) ? 'multiText' : 'multi'; }
+    else if (/\(주관식\)$/.test(c)) kind='text';
+    if (!seen[key]){ seen[key]={key,kind:kind==='multiText'?'multi':kind,opts:[],texts:[]}; groups.push(seen[key]); }
+    const g=seen[key];
+    if (kind==='multi') g.opts.push([opt,i]);
+    else if (kind==='multiText') g.texts.push([opt.replace(/ \(적은 내용\)$/,''),i]);
+    else g.col=i, g.kind=kind;
+  });
+  groups.forEach((g,i)=>{ g.sec=secOf(g.key); g.ord=i; });
+  groups.sort((a,b)=>SEC_ORDER.indexOf(a.sec)-SEC_ORDER.indexOf(b.sec) || a.ord-b.ord);
+  let curSec='';
+  groups.forEach(g=>{
+    if (g.sec!==curSec){ if(curSec) h+='</div>'; h+=`<h2>${g.sec}</h2><div class="grid">`; curSec=g.sec; }
+    h += card(g, rows, iT);
+  });
+  if (curSec) h+='</div>';
+
+  // 체험·도입 상담 신청자
+  const IH = DATA.iv.header, IR = DATA.iv.rows, hide=['응답ID','신청ID','동의'];
+  h += `<h2>시제품 체험·도입 상담 신청자 (${IR.length})</h2><div class="card tbl">`;
+  h += IR.length ? `<table><thead><tr>${IH.filter(c=>!hide.includes(c)).map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${IR.slice().reverse().map(r=>`<tr>${IH.map((c,i)=>hide.includes(c)?'':`<td>${esc(r[i])}</td>`).join('')}</tr>`).join('')}</tbody></table>` : '<p class="empty">아직 신청자가 없습니다.</p>';
+  h += `<p class="note">연락처는 이 화면에 표시하지 않습니다. 구글 시트의 「체험신청」 탭에서 확인하세요.</p></div>`;
+  h += `<div class="warnbox" style="margin-top:22px"><b>해석 주의</b> · 설문은 잠재 수요와 문제 경험에 대한 자기보고 자료입니다. 높은 필요성 응답률만으로 실제 구매 수요나 낙상 감소 효과가 입증되지는 않습니다. 의료인·의료기사(기관 쪽)의 도입 의향과 사용자·보호자(개인)의 사용 의향은 위 표처럼 나눠서 보세요. 조사 기간·모집 경로(유입)·유형별 표본 수를 함께 적어 두세요.</div>`;
+  h += `<p class="note">불러온 시각 ${new Date(DATA.at).toLocaleString('ko-KR')}</p>`;
+
+  $('#app').innerHTML = h;
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{FILTER=b.dataset.f;draw();});
+  const hf=$('#hideFast'); if(hf) hf.onchange=()=>{HIDE_FAST=hf.checked;draw();};
+  $('#re').onclick = async ()=>{ $('#re').textContent='불러오는 중…'; try{await load();}catch(e){alert(e.message)} draw(); };
+  $('#csv').onclick = ()=>csv(H, rows);
+}
+function secOf(key){
+  const m = key.match(/^(\d+)([A-C]?) /);
+  if (!m) return '신청·유입';
+  if (m[2]==='A') return '의료인·의료기사 문항';
+  if (m[2]==='B') return '휠체어 사용자 문항';
+  if (m[2]==='C') return '보호자·가족 문항';
+  return Number(m[1])<=5 ? '공통 문항' : '마무리 문항';
+}
+
+/* 집단별 비교 */
+function groupTable(H, all){
+  const cells = (n,d) => d ? `${pct(n,d)}%<small>${n}/${d}</small>` : '<span style="color:var(--mute)">–</span>';
+  const line = (name, rs, foot) => {
+    const m = metrics(rs,H);
+    return `<tr><td><b>${esc(name)}</b></td><td class="r">${m.n}</td><td class="r">${cells(m.expN,m.expD)}</td><td class="r">${cells(m.needN,m.needD)}</td><td class="r">${m.needAvg!=null?m.needAvg.toFixed(2):'–'}</td><td class="r">${m.helpAvg!=null?m.helpAvg.toFixed(2):'–'}</td><td class="r">${cells(m.intN,m.intD)}</td><td class="r">${m.rel}</td></tr>`;
+  };
+  let h = `<h2>응답자 유형별 비교</h2><div class="card">`;
+  if (!all.length) return h + `<p class="empty">아직 응답이 없습니다.</p></div>`;
+  const body = GROUPS.map(g=>[g, all.filter(r=>roleOf(r,H)===g)]).filter(x=>x[1].length);
+  h += `<div class="tbl"><table><thead><tr><th>유형</th><th class="r">응답</th><th class="r">위험 경험률</th><th class="r">필요성 4·5점</th><th class="r">8번 평균</th><th class="r">7번 도움 평균</th><th class="r">의향 긍정</th><th class="r">출시 알림</th></tr></thead>
+    <tbody>${body.map(([g,rs])=>line(g,rs)).join('')}</tbody><tfoot>${line('전체',all)}</tfoot></table></div>`;
+  h += `<p class="note">7번은 유형마다 질문이 달라요 (의료: 업무에 도움 / 사용자: 이용 시 도움 / 보호자: 가족 안전 확인에 도움). 5점 만점.</p></div>`;
+  return h;
+}
+/* 10번 고려 사항 × 유형 */
+function considerTable(H, all){
+  const opts = H.map((c,i)=>[c,i]).filter(([c])=>c.startsWith(C.consider+': ') && !/ \(적은 내용\)$/.test(c)).map(([c,i])=>[c.slice(C.consider.length+2), i]);
+  if (!opts.length || !all.length) return '';
+  const answered = rs => rs.filter(r=>opts.some(([,i])=>r[i]!==''));
+  const cols = [['전체', answered(all)], ...GROUPS.map(g=>[g, answered(all.filter(r=>roleOf(r,H)===g))]).filter(x=>x[1].length)];
+  const tot = cols[0][1];
+  const sorted = opts.map(([o,i])=>[o,i,tot.filter(r=>r[i]==='1').length]).sort((a,b)=>b[2]-a[2]);
+  const heat = p => p==null ? '–' : `<span class="heat" style="background:rgba(31,74,55,${(p/100*0.55+0.04).toFixed(2)});color:${p>55?'#fff':'inherit'}">${p}%</span>`;
+  let h = `<h2>도입 시 고려 사항 × 응답자 유형</h2><div class="card"><div class="tbl"><table><thead><tr><th>고려 사항 (10번)</th>${cols.map(([g,rs])=>`<th class="r">${esc(g)}<small>${rs.length}</small></th>`).join('')}</tr></thead><tbody>`;
+  sorted.forEach(([o,i])=>{ h += `<tr><td>${esc(o)}</td>${cols.map(([,rs])=>`<td class="r">${heat(rs.length?pct(rs.filter(r=>r[i]==='1').length, rs.length):null)}</td>`).join('')}</tr>`; });
+  h += `</tbody></table></div><p class="note">각 유형 응답자 중 그 항목을 고른 비율 (최대 3개 선택). 위에서부터 전체 기준 많이 고른 순.</p></div>`;
+  return h;
+}
+function bars(list, base){
+  const max = Math.max(1,...list.map(x=>x[1]));
+  return list.map(([lb,v])=>`<div class="row"><span class="lb" title="${esc(lb)}">${esc(lb)}</span><span class="tr"><div style="width:${v/max*100}%"></div></span><span class="v"><b>${v}</b>${base?` · ${Math.round(v/base*100)}%`:''}</span></div>`).join('');
+}
+function card(g, rows, iT){
+  const title = g.key.replace(/ \(주관식\)$/,'');
+  if (g.kind==='multi'){
+    const asked = rows.filter(r=>g.opts.some(([,i])=>r[i]!=='')); const n=asked.length;
+    const list = g.opts.map(([o,i])=>[o, asked.filter(r=>r[i]==='1').length]).sort((a,b)=>b[1]-a[1]);
+    let h = `<div class="card"><h3>${esc(title)}</h3><p class="n">응답 ${n}명 · 여러 개 선택</p>${n?bars(list,n):'<p class="empty">응답 없음</p>'}`;
+    g.texts.forEach(([o,i])=>{ const t=asked.map(r=>r[i]).filter(Boolean); if(t.length) h+=`<p class="n" style="margin:14px 0 6px">「${esc(o)}」에 적은 내용</p><ul class="texts">${t.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`; });
+    return h+'</div>';
+  }
+  if (g.kind==='text'){
+    const t = rows.map(r=>[r[g.col], r[iT]]).filter(x=>x[0]);
+    return `<div class="card" style="grid-column:1/-1"><h3>${esc(title)}</h3><p class="n">${t.length}건</p>${t.length?`<ul class="texts">${t.reverse().map(([x,d])=>`<li>${esc(x)}<small>${esc(String(d).slice(5,16))}</small></li>`).join('')}</ul>`:'<p class="empty">아직 없음</p>'}</div>`;
+  }
+  // 단일 선택 / 척도
+  const vals = rows.map(r=>r[g.col]).filter(v=>v!==''&&v!==undefined);
+  const map = {}; vals.forEach(v=>{ const k=v.replace(/^(기타): .*/,'$1'); map[k]=(map[k]||0)+1; });
+  let list = Object.entries(map);
+  const isScale = list.length && list.every(([k])=>/^[1-5]$/.test(k));
+  if (isScale) list = [1,2,3,4,5].map(n=>[n+'점', map[n]||0]); else list.sort((a,b)=>b[1]-a[1]);
+  let h = `<div class="card"><h3>${esc(title)}</h3><p class="n">응답 ${vals.length}명</p>${vals.length?bars(list,vals.length):'<p class="empty">응답 없음</p>'}`;
+  if (isScale && vals.length) h += `<p class="avg">평균 <b>${avg(vals).toFixed(2)}</b> / 5 · 4·5점 <b>${pctTxt(vals.filter(v=>v==='4'||v==='5').length, vals.length)}</b></p>`;
+  const etc = vals.filter(v=>/^기타: /.test(v)).map(v=>v.slice(4));
+  if (etc.length) h += `<p class="n" style="margin:14px 0 6px">「기타」에 적은 내용</p><ul class="texts">${etc.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+  return h+'</div>';
+}
+function csv(H, rows){
+  const q = v => /[",\n]/.test(v) ? `"${String(v).replace(/"/g,'""')}"` : v;
+  const s = '﻿' + [H, ...rows].map(r=>r.map(q).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([s],{type:'text/csv;charset=utf-8'}));
+  a.download = `피오티랩_휠체어설문_${FILTER}_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>피오티랩 휠체어 안전 설문 — 커피 100잔 추첨</title>
+<meta name="description" content="물리·작업치료사가 만드는 피오티랩(POT LAB)이 휠체어 안전 보조장치 제작을 위해 진행하는 설문입니다. 2~3분, 커피 100잔 추첨.">
+<meta property="og:title" content="피오티랩 휠체어 안전 설문 · ☕ 커피 100잔 추첨">
+<meta property="og:description" content="의료진·휠체어 사용자·보호자의 경험을 들려주세요. 2~3분이면 충분해요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#F5F3EE; --card:#FFFFFF; --ink:#1B2220; --sub:#66706C; --mute:#9AA29E;
+  --line:#E5E1D8; --acc:#1F4A37; --acc-2:#2B6249; --acc-soft:#E6EFE8; --acc-ink:#163A2A; --lime:#D3EC6A; --lime-soft:#F3F9DA;
+  --warm:#D98E2B; --warm-soft:#FBF1E2; --err:#C24A3A;
+  --r:18px; --shadow:0 1px 2px rgba(20,30,25,.04),0 8px 28px rgba(20,30,25,.06);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+button,input,textarea,select{font:inherit;color:inherit}
+
+/* 위 띠 */
+.top{position:sticky;top:0;z-index:5;background:rgba(245,243,238,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.top-in{max-width:600px;margin:0 auto;padding:14px 16px 10px;display:flex;align-items:center;gap:12px}
+.brand{font-weight:800;letter-spacing:-.01em;font-size:15px;color:var(--acc-ink)}
+.brand i{font-style:normal;color:var(--acc-2);font-weight:600;margin-left:4px;font-size:13px}
+.step{margin-left:auto;font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums}
+.bar{height:3px;background:var(--line)}
+.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc-2));transition:width .35s ease}
+
+main{max-width:600px;margin:0 auto;padding:20px 16px 120px}
+.page{display:none}
+.page.anim{animation:in .3s ease}
+.page.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.sec-tag{display:inline-block;font-size:12px;font-weight:700;color:var(--acc);background:var(--acc-soft);
+  padding:4px 10px;border-radius:99px;margin:4px 0 10px}
+h1{font-size:28px;line-height:1.3;margin:6px 0 12px;letter-spacing:-.02em}
+h2{font-size:21px;line-height:1.35;margin:0 0 4px;letter-spacing:-.01em}
+.lead{color:var(--sub);margin:0 0 18px}
+
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:22px 20px;margin:0 0 14px}
+.q-label{font-weight:700;font-size:17px;line-height:1.45;margin:0 0 4px}
+.q-label .req{color:var(--warm);margin-left:3px}
+.q-help{font-size:13.5px;color:var(--sub);margin:0 0 14px}
+.q-err{display:none;color:var(--err);font-size:13px;margin-top:10px}
+.card.bad{box-shadow:0 0 0 2px #F0C8C1,var(--shadow)}
+.card.bad .q-err{display:block}
+
+/* 보기 */
+.opts{display:grid;gap:8px}
+.opts.cols2{grid-template-columns:1fr 1fr}
+.opt{position:relative;display:flex;align-items:flex-start;gap:10px;width:100%;text-align:left;cursor:pointer;
+  background:#FBFAF7;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;transition:all .15s ease}
+.opt:hover{border-color:#CFC9BC}
+.opt .mk{flex:0 0 20px;height:20px;margin-top:2px;border:1.5px solid #C6C0B3;border-radius:50%;display:grid;place-items:center;transition:all .15s}
+.opt.multi .mk{border-radius:6px}
+.opt .tx{flex:1;min-width:0}
+.opt .tx b{font-weight:600}
+.opt .tx small{display:block;color:var(--sub);font-size:12.5px;line-height:1.45;margin-top:2px}
+.opt.sel{border-color:var(--acc);background:var(--acc-soft)}
+.opt.sel .mk{background:var(--acc);border-color:var(--acc)}
+.opt.sel .mk::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.opt.dim{opacity:.45}
+.etc{display:none;margin:-2px 0 4px}
+.etc.on{display:block}
+.etc .soft{font-size:12.5px;color:var(--acc);margin:6px 2px 6px}
+
+input[type=text],input[type=tel],textarea,select{width:100%;background:#FBFAF7;border:1.5px solid var(--line);border-radius:12px;
+  padding:12px 14px;outline:none;transition:border .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--acc);background:#fff}
+textarea{min-height:96px;resize:vertical}
+.field{margin:12px 0 0}
+.field label{display:block;font-size:14px;font-weight:600;margin:0 0 6px}
+
+/* 척도 */
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale button{border:1.5px solid var(--line);background:#FBFAF7;border-radius:12px;padding:12px 0;font-weight:700;cursor:pointer;transition:all .15s}
+.scale button.sel{background:var(--acc);border-color:var(--acc);color:#fff}
+.scale-cap{display:flex;justify-content:space-between;font-size:12.5px;color:var(--sub);margin-top:6px}
+
+/* 소개 */
+.hero{padding:26px 22px;background:linear-gradient(160deg,#1F4A37 0%,#143225 100%);color:#fff;border-radius:22px;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{width:220px;height:220px;right:-70px;top:-80px}
+.hero::after{width:150px;height:150px;right:-30px;bottom:-70px;background:rgba(211,236,106,.9)}
+.hero h1{color:#fff;position:relative}
+.hero p{position:relative;color:rgba(255,255,255,.86);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;position:relative;z-index:1}
+.chips span{font-size:12.5px;background:rgba(255,255,255,.14);padding:5px 10px;border-radius:99px}
+.meta{display:flex;gap:16px;margin:16px 4px 0;color:var(--sub);font-size:13.5px}
+.meta b{color:var(--ink)}
+
+.feat{display:grid;gap:10px;margin:14px 0 4px}
+.feat div{display:flex;gap:12px;align-items:flex-start}
+.feat i{flex:0 0 30px;height:30px;border-radius:9px;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px}
+.feat b{display:block;font-size:15px}
+.feat small{color:var(--sub);font-size:13px}
+.notice{font-size:13px;color:var(--sub);background:#F8F6F1;border-radius:12px;padding:12px 14px;margin-top:14px}
+
+/* 이름 */
+.names{display:grid;gap:10px}
+.name{text-align:left;cursor:pointer;border:1.5px solid var(--line);background:#FBFAF7;border-radius:16px;padding:16px 16px 14px;transition:all .15s;width:100%}
+.name .nm{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.name .nm b{font-size:20px;letter-spacing:-.01em}
+.name .nm em{font-style:normal;font-size:12.5px;color:var(--mute)}
+.name p{margin:0;font-size:14px;color:var(--sub);line-height:1.55}
+.name.sel{border-color:var(--acc);background:var(--acc-soft)}
+.name.sel .nm b{color:var(--acc-ink)}
+
+/* 동의 */
+.consent{margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.consent .doc{font-size:12.8px;color:var(--sub);background:#F8F6F1;padding:12px 14px;line-height:1.6}
+.consent .doc b{color:var(--ink)}
+.consent .doc ul{margin:6px 0 0;padding-left:18px}
+.chk{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;font-weight:600;font-size:14.5px;background:#fff}
+.chk input{width:20px;height:20px;accent-color:var(--acc);margin:0}
+
+/* 인터뷰 */
+details.iv{background:var(--lime-soft);border:1.5px solid #DDEBA6;border-radius:var(--r);margin:18px 0 14px;overflow:hidden}
+details.iv summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:10px;font-weight:700}
+details.iv summary::-webkit-details-marker{display:none}
+details.iv summary .badge{flex:0 0 auto;white-space:nowrap;font-size:11.5px;font-weight:800;background:var(--acc);color:var(--lime);padding:3px 8px;border-radius:99px;letter-spacing:.02em}
+details.iv summary .arw{margin-left:auto;transition:transform .2s;color:var(--acc)}
+details.iv[open] summary .arw{transform:rotate(180deg)}
+details.iv .body{padding:0 18px 18px}
+.iv-pill{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px}
+.iv-pill span{font-size:12.5px;font-weight:700;background:#fff;border:1px solid #DDEBA6;color:var(--acc);padding:5px 10px;border-radius:99px}
+.iv-carry{font-size:12.8px;color:var(--sub);background:#fff;border-radius:12px;padding:10px 12px;margin:10px 0 0}
+
+/* 아래 단추 */
+.nav{position:fixed;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(245,243,238,0),var(--bg) 30%);padding:18px 16px calc(14px + env(safe-area-inset-bottom))}
+.nav-in{max-width:600px;margin:0 auto;display:flex;gap:10px}
+.btn{border:0;border-radius:14px;padding:15px 18px;font-weight:700;font-size:16px;cursor:pointer;transition:transform .1s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn.pri{flex:1;background:var(--acc);color:#fff}
+.btn.pri:hover{background:var(--acc-2)}
+.btn.pri:disabled{background:#9DB3A6;cursor:default}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+
+.done{text-align:center;padding:40px 10px}
+.done .ok{width:72px;height:72px;border-radius:50%;background:var(--acc-soft);display:grid;place-items:center;margin:0 auto 18px}
+.done .ok::after{content:"";width:26px;height:14px;border:4px solid var(--acc);border-top:0;border-right:0;transform:rotate(-45deg) translate(2px,-3px)}
+.done p{color:var(--sub)}
+.foot{text-align:center;font-size:12px;color:var(--mute);margin:28px 0 0}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:14px;padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1}
+@media (max-width:380px){.opts.cols2{grid-template-columns:1fr}h1{font-size:25px}}
+
+/* 제출 결과 */
+.done .ok.bad{background:#FBE9E6}
+.done .ok.bad::after{content:"!";border:0;transform:none;width:auto;height:auto;color:var(--err);font-size:34px;font-weight:800}
+.spin{width:56px;height:56px;border-radius:50%;border:5px solid var(--acc-soft);border-top-color:var(--acc);margin:6px auto 20px;animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.done .warm{font-size:17px;line-height:1.7;color:var(--ink);margin:6px 0 12px}
+.done .warm b{color:var(--acc-ink)}
+.receipt-box{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:#fff;border:1.5px dashed #CFC9BC;border-radius:14px;padding:12px 22px;margin-top:10px}
+.receipt-box span{font-size:12px;color:var(--sub);font-weight:700;letter-spacing:.04em}
+.receipt-box b{font-size:17px;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.receipt-box small{font-size:12px;color:var(--mute)}
+.receipt{font-size:12.5px;color:var(--mute);margin-top:14px}
+.btn.warm{width:100%;margin-top:14px;background:var(--acc);color:#fff}
+.btn.warm:disabled{background:#9DB3A6}
+.iv-done{display:flex;gap:14px;align-items:flex-start;background:var(--acc-soft);border-radius:var(--r);padding:18px;margin:6px 0 14px}
+.iv-done p{margin:4px 0 0;font-size:14px;color:var(--sub)}
+.ok.small{flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center}
+.ok.small::after{content:"";width:13px;height:7px;border:3px solid var(--acc);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-2px)}
+.done{padding:28px 6px 10px}
+.chips span.gift{background:var(--lime);color:var(--acc-ink);font-weight:800}
+input.line{width:100%}
+.ask-link{background:none;border:0;padding:0;color:var(--acc);text-decoration:underline;font-size:12px;cursor:pointer}
+.ask-bg{position:fixed;inset:0;background:rgba(20,25,23,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:16px}
+.ask-bg[hidden]{display:none}
+.ask-box{background:#fff;border-radius:20px;width:100%;max-width:520px;padding:20px 18px 18px;box-shadow:0 10px 40px rgba(0,0,0,.2);margin-bottom:env(safe-area-inset-bottom)}
+.ask-head{display:flex;align-items:center;margin-bottom:10px}.ask-head b{font-size:17px}
+.ask-x{margin-left:auto;background:none;border:0;font-size:18px;cursor:pointer;color:var(--sub)}
+.ask-note{font-size:12px;color:var(--mute);margin:8px 0 0}
+#askErr{display:block}
+@media (min-width:600px){.ask-bg{align-items:center}}
+/* 피오티랩 · 추첨 */
+.hero .eyebrow{position:relative;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--lime);margin:0 0 8px}
+.top-chip{font-size:12px;font-weight:800;background:var(--lime);color:var(--acc-ink);padding:4px 9px;border-radius:99px;white-space:nowrap}
+.raffle{position:relative;overflow:hidden;background:var(--lime);color:var(--acc-ink);border-radius:20px;padding:20px 20px 18px;margin:14px 0 0;box-shadow:0 10px 30px rgba(120,150,20,.25)}
+.raffle .cup{position:absolute;right:14px;top:10px;font-size:58px;line-height:1;transform:rotate(8deg)}
+.raffle small{display:block;font-size:12.5px;font-weight:800;letter-spacing:.06em;opacity:.75}
+.raffle b{display:block;font-size:30px;line-height:1.2;letter-spacing:-.02em;margin:4px 0 6px}
+.raffle b em{font-style:normal;background:var(--acc-ink);color:var(--lime);padding:0 8px;border-radius:8px}
+.raffle p{margin:0;font-size:13.5px;line-height:1.55;max-width:80%}
+.raffle.mini{padding:14px 16px;margin:0 0 14px;box-shadow:none}
+.raffle.mini b{font-size:20px}
+.raffle.mini .cup{font-size:40px}
+.card.hl{box-shadow:0 0 0 2.5px var(--lime),var(--shadow)}
+.card.hl .q-label::before{content:"☕ 커피 추첨";display:inline-block;font-size:11.5px;font-weight:800;background:var(--lime);color:var(--acc-ink);padding:2px 8px;border-radius:99px;margin:0 8px 4px 0;vertical-align:2px}
+.about{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin:14px 0}
+.about .lab{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.about .mark{flex:0 0 38px;height:38px;border-radius:12px;background:var(--acc);color:var(--lime);display:grid;place-items:center;font-weight:900;font-size:13px;letter-spacing:-.02em}
+.about .lab b{font-size:17px}.about .lab small{display:block;font-size:11.5px;letter-spacing:.12em;color:var(--sub);font-weight:700}
+.about p{margin:0 0 8px;font-size:14.5px;color:#3A4440}
+.about ul{margin:6px 0 12px;padding:0;list-style:none;display:grid;gap:6px}
+.about li{font-size:13.5px;color:var(--sub);padding-left:16px;position:relative}
+.about li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 1.5px var(--acc)}
+.site-link{display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--acc);color:#fff;border-radius:14px;padding:13px 16px;font-weight:700;font-size:15px}
+.site-link span{margin-left:auto;color:var(--lime);font-weight:800}
+.site-link small{display:block;font-weight:500;font-size:12px;color:rgba(255,255,255,.7)}
+.foot a{color:var(--acc)}
+.cfg-warn{position:sticky;top:0;z-index:30;background:#C24A3A;color:#fff;font-size:13px;font-weight:700;padding:8px 16px;text-align:center}
+.cfg-warn[hidden]{display:none}
+</style>
+</head>
+<body>
+<div class="cfg-warn" id="cfgWarn" hidden></div>
+<div class="top">
+  <div class="top-in"><span class="brand" id="brandTop"></span><span class="top-chip" id="topChip" hidden></span><span class="step" id="stepTxt"></span></div>
+  <div class="bar"><div id="bar"></div></div>
+</div>
+<main id="app"></main>
+<div class="nav"><div class="nav-in">
+  <button class="btn ghost" id="prev" type="button">이전</button>
+  <button class="btn pri" id="next" type="button">시작하기</button>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="ask-bg" id="askBg" hidden>
+  <div class="ask-box" role="dialog" aria-label="문의하기">
+    <div class="ask-head"><b>문의하기</b><button type="button" class="ask-x" onclick="closeAsk()" aria-label="닫기">✕</button></div>
+    <div id="askBody">
+      <p class="q-help" style="margin:0 0 10px">설문·추첨·시제품 체험 등 궁금한 점을 남겨 주세요. 확인 후 답변드리겠습니다.</p>
+      <textarea id="askText" maxlength="1000" placeholder="문의 내용을 적어 주세요"></textarea>
+      <div class="field"><label>답변 받으실 연락처 (선택)</label><input type="text" id="askReply" maxlength="60" placeholder="휴대전화 번호 또는 이메일"></div>
+      <p class="ask-note">답변 받으실 연락처는 이 문의에 답하는 데만 쓰고, 답변 후 파기합니다.</p>
+      <p class="q-err" id="askErr"></p>
+      <button type="button" class="btn pri" id="askSend" style="width:100%;margin-top:8px">보내기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═════════ ★ 배포 전에 꼭 채울 것 ═════════ */
+/* 1) Apps Script 배포 후 받은 웹 앱 주소 (admin.html 에도 똑같이) */
+const SCRIPT_URL = 'PASTE_WEB_APP_URL_HERE';
+/* 2) 개인정보 처리 주체 — 회사·단체 이름 (운영자 실명 X). 비어 있으면 화면 위에 빨간 경고가 뜹니다 */
+const ORG = '(주)영서 (피오티랩)';
+/* 3) 브랜드 — 화면 위·꼬리말·소개 카드 */
+const BRAND = ['피오티랩', 'POT LAB'];
+const SITE_URL = 'https://potlab.kr/';
+/* 4) 추첨 — on:false 면 추첨 문항·배너가 통째로 사라짐. until·announce 는 빈 칸이면 화면에 안 나옴
+      ※ 지원금 규정: 상품권·기프티콘 꼴은 걸릴 수 있음 → 커피 등 실물로 */
+const PRIZE = { on:true, what:'커피', count:100, unit:'잔', until:'', announce:'' };   // 예: until:'11월 30일', announce:'12월 2일'
+/* 5) 완료 화면의 「시제품 체험·도입 상담 신청」 카드 켜기/끄기 */
+const IV_ON = true;
+/* 6) 이 초보다 빨리 끝낸 응답은 「확인 필요」로 표시 (관리자 화면에서 빼고 볼 수 있음) */
+const FAST_SEC = 10;
+
+/* ───────── 보기 목록 ───────── */
+const ROLES = [
+  {t:'의료인', sub:'의사, 간호사 등'},
+  {t:'의료기사', sub:'작업치료사, 물리치료사 등'},
+  {t:'휠체어 사용자', sub:'본인이 휠체어를 사용'},
+  {t:'보호자·가족', sub:'휠체어 사용자의 보호자 또는 가족'},
+  {t:'기타', input:'어떤 입장이신지 적어 주세요'}
+];
+const PLACES = ['병원·요양병원·재활기관','가정','복지시설·요양시설','지역사회·외부 이동',{t:'기타',input:'어디인지 적어 주세요'}];
+const EXP_YES = ['직접 경험한 적이 있다','다른 사람의 상황을 목격한 적이 있다','직접 경험과 목격 모두 있다'];
+const SCALE_HELP = {lo:'전혀 도움이 되지 않을 것 같다', hi:'매우 도움이 될 것 같다'};
+
+/* ───────── 문항 ─────────
+   col = 시트 칸 이름 (Code.gs 는 칸을 자동으로 만들기 때문에 여기만 바꾸면 됨)
+   br  = 이 유형에게만 묻는 문항 (A 의료인·의료기사 / B 휠체어 사용자 / C 보호자·가족)        */
+const Q = {
+  q1:{col:'1 응답자 유형',type:'single',label:'귀하의 응답자 유형은 무엇입니까?',req:1,opts:ROLES},
+  q2:{col:'2 이용 환경',type:'single',label:'주로 경험하는 휠체어 이용 환경은 어디입니까?',req:1,opts:PLACES},
+
+  q3:{col:'3 위험 경험',type:'single',req:1,
+      label:'휠체어 브레이크가 체결되지 않았거나 제대로 고정되지 않아 위험했던 상황을 경험하거나 목격한 적이 있습니까?',
+      help:()=> grp()==='A' ? '업무 중 경험을 기준으로 답해 주세요.' : (grp()==='B'||grp()==='C') ? '본인 또는 가족의 경험을 기준으로 답해 주세요.' : '',
+      opts:[...EXP_YES,'경험하거나 목격한 적이 없다','잘 모르겠다']},
+  q4:{col:'4 발생 상황',type:'multi',max:3,label:'브레이크 미체결 또는 고정 불량으로 인해 어떤 상황이 발생했습니까?',help:'최대 3개까지 골라 주세요. (선택)',
+      show:a=>EXP_YES.includes(a.q3),
+      opts:['휠체어가 의도치 않게 움직이거나 밀림','휠체어에서 일어나거나 앉는 중 균형을 잃을 뻔함','실제 미끄러짐 또는 낙상 발생','보호자나 의료진이 급하게 휠체어를 붙잡거나 조치함','위험은 있었으나 별다른 사고는 발생하지 않음',{t:'기타',input:'어떤 상황이었는지 적어 주세요'}]},
+  q5:{col:'5 확인 방법',type:'single',req:1,label:'현재 휠체어 브레이크가 체결되었는지 확인하기 위해 주로 어떤 방법을 사용합니까?',
+      opts:['직접 눈으로 확인','손으로 브레이크를 조작하거나 휠체어를 움직여 확인','의료진·보호자 등 다른 사람이 확인','별도의 정해진 확인 방법이 없음',{t:'기타',input:'어떤 방법인지 적어 주세요'},'해당 없음']},
+
+  q6A:{col:'6A 조치 빈도',br:'A',type:'single',req:1,cols:2,label:'업무 중 휠체어 브레이크의 미체결이나 고정 불량을 확인하고 조치해야 하는 일이 얼마나 자주 있습니까?',
+      opts:['거의 매일','주 1~3회','월 1~3회','그보다 드물게','경험한 적 없음','잘 모르겠다']},
+  q7A:{col:'7A 업무 도움',br:'A',type:'scale',req:1,label:'휠체어 브레이크 상태를 자동으로 알려주는 장치가 있다면 업무에 도움이 될 것으로 생각하십니까?',...SCALE_HELP},
+
+  q6B:{col:'6B 확인 어려움',br:'B',type:'single',req:1,cols:2,label:'휠체어 브레이크를 체결하거나 제대로 고정되었는지 확인할 때 어려움을 느낀 적이 있습니까?',
+      opts:['자주 있다','가끔 있다','거의 없다','전혀 없다','직접 판단하기 어렵다']},
+  q7B:{col:'7B 이용 도움',br:'B',type:'scale',req:1,label:'브레이크가 체결되지 않은 상태를 소리나 빛으로 알려주는 장치가 있다면 휠체어 이용 시 도움이 될 것으로 생각하십니까?',...SCALE_HELP},
+
+  q6C:{col:'6C 확인 빈도',br:'C',type:'single',req:1,label:'휠체어를 사용하는 가족의 브레이크 체결 여부를 직접 확인하거나 확인하도록 도와주는 일이 얼마나 자주 있습니까?',
+      opts:['거의 매번 확인한다','자주 확인한다','가끔 확인한다','거의 확인하지 않는다','휠체어 이용을 직접 보조하지 않는다']},
+  q7C:{col:'7C 안전 도움',br:'C',type:'scale',req:1,label:'브레이크가 체결되지 않은 상태를 소리나 빛으로 알려주는 장치가 있다면 가족의 안전을 확인하는 데 도움이 될 것으로 생각하십니까?',...SCALE_HELP},
+
+  q8:{col:'8 필요성',type:'scale',req:1,label:'휠체어 브레이크 미체결 상태를 소리나 빛으로 알려주는 장치가 필요하다고 생각하십니까?',lo:'전혀 필요하지 않다',hi:'매우 필요하다'},
+  q9:{col:'9 사용 의향',type:'single',req:1,label:'해당 장치를 실제로 도입하거나 사용해 볼 의향이 있습니까?',
+      opts:['적극적으로 도입·사용해 보고 싶다','조건이 적절하다면 도입·사용할 의향이 있다','아직 판단하기 어렵다','도입·사용할 의향이 별로 없다','전혀 없다']},
+  q10:{col:'10 고려 사항',type:'multi',max:3,req:1,label:'해당 장치를 도입할 때 가장 중요하게 고려할 사항은 무엇입니까?',help:'가장 중요한 것을 최대 3개까지 골라 주세요.',
+      opts:['알람의 정확성 및 오작동 여부','실제 사고 예방에 도움이 되는지','가격 및 유지관리 비용','설치 및 기존 휠체어와의 호환성','소리의 크기 및 주변 소음','배터리 수명 및 충전 편의성','사용과 관리의 편리성',{t:'기타',input:'무엇을 고려하시는지 적어 주세요'}]},
+  q11:{col:'11 개선점·바라는 기능 (주관식)',type:'text',label:'휠체어 안전과 관련해 개선이 필요한 점, 또는 추가로 있으면 좋을 만한 기능이나 물품이 있다면 편하게 말씀해 주세요.',help:'어떤 아이디어든 좋아요. 비워 두셔도 괜찮습니다.'},
+
+  N:{col:'출시 알림 신청',type:'single',req:1,cols:2,label:'장치가 나오면 소식을 문자로 받아 보시겠어요?',help:'출시되면 가장 먼저 알려 드릴게요.',opts:['네, 받을게요','괜찮아요']},
+  R:{col:'추첨 응모',type:'single',req:1,cols:2,label:()=>`${prizeTxt()} 추첨에 응모하시겠어요?`,help:()=>raffleLine(),opts:['네, 응모할게요','괜찮아요'],show:()=>PRIZE.on}
+};
+/* 이 문항의 답이 바뀌면 같은 쪽의 다른 칸이 나타나거나 사라짐 → 그때만 다시 그림 */
+const DEPENDS = {q1:1, q3:1, N:1, R:1};
+
+/* 쪽 구성 */
+const P = {
+  intro:{kind:'intro'},
+  s1:{tag:'시작',title:'먼저 간단히 여쭤볼게요',qs:['q1','q2']},
+  s2:{tag:'경험',title:'브레이크와 관련된 경험을 여쭤볼게요',qs:['q3','q4']},
+  xA:{tag:'의료인·의료기사',title:'업무 중 브레이크 확인에 대해 여쭤볼게요',qs:['q5','q6A','q7A']},
+  xB:{tag:'휠체어 사용자',title:'휠체어를 쓰실 때를 여쭤볼게요',qs:['q5','q6B','q7B']},
+  xC:{tag:'보호자·가족',title:'가족의 휠체어 이용을 여쭤볼게요',qs:['q5','q6C','q7C']},
+  xD:{tag:'확인 방법',title:'브레이크 확인 방법을 여쭤볼게요',qs:['q5']},
+  e1:{tag:'안전 보조장치',title:'장치에 대한 생각을 여쭤볼게요',kind:'feat',qs:['q8','q9','q10']},
+  e2:{tag:'마지막',title:'마지막으로 여쭤볼게요',kind:'alert',qs:['R','N','q11']},
+  done:{kind:'done'}
+};
+const LAST = 'e2';
+function flow(){
+  const g = grp();
+  return ['intro','s1','s2', g ? 'x'+g : 'xD', 'e1', LAST, 'done'];
+}
+/* 응답자 유형 → 분기 글자 */
+function grp(){
+  const r = S.ans.q1 || '';
+  return (r==='의료인'||r==='의료기사') ? 'A' : r==='휠체어 사용자' ? 'B' : r==='보호자·가족' ? 'C' : r ? 'D' : '';
+}
+
+/* ───────── 상태 ───────── */
+const S = { ans:{}, etc:{}, idx:0,
+  alert:{nick:'',phone:'',ok:false},
+  iv:{want:false,nick:'',phone:'',org:'',type:'',ok:false,state:'',id:''},
+  send:{state:'',at:''},          // '', sending, ok, fail
+  id: rid() };
+function rid(){ return 'R'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase(); }
+const ot = o => typeof o==='string' ? {t:o} : o;
+const fx = v => typeof v==='function' ? v() : v;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const vis = id => !Q[id].show || Q[id].show(S.ans);
+const nowKST = () => new Date().toLocaleString('sv-SE',{timeZone:'Asia/Seoul'});
+const brandHTML = () => `${esc(BRAND[0])}<i>${esc(BRAND[1])}</i>`;
+const prizeTxt = () => `${PRIZE.what} ${PRIZE.count}${PRIZE.unit}`;
+const orgName = () => ORG || '(처리 주체 미기재)';
+const foot = () => `<p class="foot">${esc(BRAND.join(' '))} · <a href="${SITE_URL}" target="_blank" rel="noopener">potlab.kr</a> · <button type="button" class="ask-link" onclick="openAsk()">문의하기</button></p>`;
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2200); }
+const wantRel = () => S.ans.N==='네, 받을게요';
+const wantRaffle = () => PRIZE.on && S.ans.R==='네, 응모할게요';
+const wantsContact = () => wantRel() || wantRaffle();
+function raffleLine(){
+  const c = PRIZE.what.charCodeAt(PRIZE.what.length-1), batchim = c>=0xAC00 && c<=0xD7A3 && (c-0xAC00)%28>0;
+  return `${PRIZE.until?PRIZE.until+'까지 ':''}연락처를 남겨 주신 분 중 ${PRIZE.count}명을 무작위로 뽑아 ${PRIZE.what}${batchim?'을':'를'} 한 ${PRIZE.unit}씩 보내 드려요.`;
+}
+/* 커피 추첨 배너 (big = 첫 화면용) */
+function raffleHTML(big){
+  if (!PRIZE.on) return '';
+  return `<div class="raffle${big?'':' mini'}"><span class="cup" aria-hidden="true">☕</span>
+    <small>설문 참여 이벤트</small>
+    <b><em>${esc(PRIZE.what)} ${PRIZE.count}${esc(PRIZE.unit)}</em> 추첨</b>
+    ${big?`<p>끝까지 답하고 연락처를 남겨 주시면 ${PRIZE.count}분께 ${esc(PRIZE.what)}를 한 ${esc(PRIZE.unit)}씩 보내 드려요.${PRIZE.announce?` 발표 ${esc(PRIZE.announce)}.`:''}</p>`:`<p>아래에서 「네, 응모할게요」를 고르고 번호만 남겨 주세요.</p>`}
+  </div>`;
+}
+/* 피오티랩 소개 카드 */
+function aboutHTML(title){
+  return `<div class="about">
+    <div class="lab"><span class="mark">POT</span><div><small>FIELD NOTES FOR PT &amp; OT</small><b>${title||'피오티랩은 이런 곳이에요'}</b></div></div>
+    <p>피오티랩(POT LAB)의 POT은 <b>PT(물리치료사)</b>와 <b>OT(작업치료사)</b>를 뜻합니다. 교과서에는 없고 현장에서는 매일 쓰는 실전 지식을 물리·작업치료사에게 나눠 왔습니다.</p>
+    <p>이제 그 현장 경험을 환자에게로 넓혀, <b>환자의 안전하고 건강한 생활을 위한 물품</b>을 개발하고 있습니다. 휠체어 관련 안전 보조장치가 그중 하나입니다.</p>
+    <ul>
+      <li>물리·작업치료사를 위한 실전 전자책 — 면접·취업·치료 기술</li>
+      <li>온라인 강의</li>
+      <li>환자 안전 물품 개발 — 지금 이 설문이 여기에 쓰여요</li>
+    </ul>
+    <a class="site-link" href="${SITE_URL}" target="_blank" rel="noopener"><div>피오티랩 둘러보기<small>potlab.kr</small></div><span>→</span></a>
+  </div>`;
+}
+
+/* 설정 빠짐 경고 (배포 전 실수 막기) */
+(function cfgCheck(){
+  const miss = [];
+  if (/PASTE_|^\s*$/.test(SCRIPT_URL)) miss.push('SCRIPT_URL(웹 앱 주소)');
+  if (!ORG.trim()) miss.push('ORG(개인정보 처리 주체)');
+  if (miss.length){ const w=$('#cfgWarn'); w.hidden=false; w.textContent='⚠ 배포 전 설정 필요: '+miss.join(', ')+' — index.html 맨 위 상수를 채워 주세요.'; }
+})();
+
+/* ───────── 그리기 ───────── */
+function render(anim=true){
+  const f = flow(), key = f[S.idx], pg = P[key];
+  let h = '';
+  if (pg.kind==='intro') h = introHTML();
+  else if (pg.kind==='done') h = doneHTML();
+  else {
+    h += `<span class="sec-tag">${pg.tag}</span><h2>${pg.title}</h2>${leadFor(key)?`<p class="lead">${leadFor(key)}</p>`:'<div style="height:14px"></div>'}`;
+    if (pg.kind==='feat') h += featHTML();
+    if (pg.kind==='alert') h += raffleHTML(false);
+    pg.qs.forEach(id => { if (vis(id)) h += qHTML(id); });
+    if (pg.kind==='alert' && wantsContact()) h += alertHTML();
+    h += foot();
+  }
+  $('#app').innerHTML = `<section class="page on${anim?' anim':''}">${h}</section>`;
+  const total = f.length - 2, cur = Math.min(Math.max(S.idx-1,0), total);
+  $('#bar').style.width = (pg.kind==='done' ? 100 : (cur/total)*100) + '%';
+  $('#stepTxt').textContent = (pg.kind==='intro'||pg.kind==='done') ? '' : `${S.idx} / ${total}`;
+  $('#prev').style.display = (S.idx===0) ? 'none' : '';
+  $('#next').textContent = pg.kind==='intro' ? '시작하기' : key===LAST ? '제출하기' : '다음';
+  $('.nav').style.display = pg.kind==='done' ? 'none' : '';
+  bind();
+}
+function leadFor(k){
+  return ({s1:'답에 따라 알맞은 질문으로 안내해 드릴게요.',
+    e1:'거의 다 왔어요.',
+    e2:'이것만 답하시고 제출하시면 끝나요.'})[k] || '';
+}
+function introHTML(){
+  return `<div class="hero">
+    <p class="eyebrow">POT LAB · 환자 안전 물품 개발</p>
+    <h1>휠체어 브레이크,<br>안전하게 잠겨 있나요?</h1>
+    <p>의료진·휠체어 사용자·보호자의 실제 경험을 듣고 싶습니다. 2~3분이면 충분해요.</p>
+    <div class="chips"><span>약 2~3분</span><span>익명 응답</span><span>의료진 · 사용자 · 보호자</span>${PRIZE.on?`<span class="gift">☕ ${esc(prizeTxt())} 추첨</span>`:''}</div>
+  </div>
+  ${raffleHTML(true)}
+  <div class="meta"><span>소요 <b>약 2~3분</b></span><span>문항 <b>11개 안팎</b></span></div>
+  ${aboutHTML()}
+  <div class="card">
+    <p class="q-help" style="margin:0 0 6px">피오티랩은 <b>모두의 창업</b> 지원을 받아 휠체어 관련 안전 보조장치를 제작하고 있습니다. 그래서 이와 관련된 정보를 모으고 있습니다.</p>
+    <p class="q-help" style="margin:0">응답은 통계로만 쓰이며, 연락처는 원하실 때만 따로 받습니다.</p>
+  </div>
+  ${foot()}`;
+}
+function featHTML(){
+  return `<div class="card">
+    <p class="q-help" style="margin:0 0 4px;font-weight:700;color:var(--acc)">피오티랩이 제작 중인 환자 안전 물품</p>
+    <p class="q-label">휠체어 관련 안전 보조장치</p>
+    <p class="q-help" style="margin:6px 0 0">아직 만드는 중이라, 여러분의 답을 바탕으로 방향을 정하려고 합니다.</p></div>`;
+}
+function qHTML(id){
+  const q = Q[id], help = fx(q.help);
+  let h = `<div class="card${id==='R'?' hl':''}" data-q="${id}"><p class="q-label">${esc(fx(q.label))}${q.req?'<span class="req">*</span>':''}</p>`;
+  if (help) h += `<p class="q-help">${esc(help)}</p>`; else h += `<div style="height:10px"></div>`;
+  if (q.type==='single' || q.type==='multi'){
+    const multi = q.type==='multi';
+    const sel = multi ? (S.ans[id]||[]) : [S.ans[id]];
+    const full = multi && q.max && sel.length>=q.max;
+    h += `<div class="opts${q.cols?' cols2':''}">`;
+    q.opts.map(ot).forEach(o => {
+      const on = sel.includes(o.t);
+      h += `<button type="button" class="opt${multi?' multi':''}${on?' sel':''}${full&&!on?' dim':''}" data-v="${esc(o.t)}"><span class="mk"></span><span class="tx"><b>${esc(o.t)}</b>${o.sub?`<small>${esc(o.sub)}</small>`:''}</span></button>`;
+      if (o.input) h += `<div class="etc${on?' on':''}" style="grid-column:1/-1" data-etc="${esc(o.t)}">${o.soft?`<p class="soft">${esc(o.soft)}</p>`:''}<input type="text" maxlength="200" placeholder="${esc(o.input)}" value="${esc(S.etc[id+'|'+o.t]||'')}"></div>`;
+    });
+    h += `</div>`;
+  } else if (q.type==='scale'){
+    h += `<div class="scale">${[1,2,3,4,5].map(n=>`<button type="button" data-v="${n}" class="${S.ans[id]==n?'sel':''}">${n}</button>`).join('')}</div><div class="scale-cap"><span>1 · ${esc(q.lo)}</span><span>5 · ${esc(q.hi)}</span></div>`;
+  } else if (q.type==='text'){
+    h += `<textarea maxlength="1000" placeholder="편하게 적어 주세요">${esc(S.ans[id]||'')}</textarea>`;
+  }
+  h += `<p class="q-err">답을 골라 주세요.</p></div>`;
+  return h;
+}
+function consentHTML(kind){
+  const what = kind==='alert'
+    ? [wantRel()?'출시 알림 문자 발송':'', wantRaffle()?`${PRIZE.what} 추첨 및 경품 발송`:''].filter(Boolean).join(', ')
+    : '시제품 체험·도입 상담 대상자 선정 및 개별 연락';
+  const items = kind==='alert' ? '닉네임(적은 경우), 휴대전화 번호' : '닉네임, 휴대전화 번호, 소속 기관(적은 경우), 그리고 설문 답변 중 응답자 유형·이용 환경·사용 의향';
+  const keep = kind==='alert'
+    ? (wantRel() ? '출시 알림 발송 후 6개월까지 보관 후 파기' + (wantRaffle()?' (추첨만 응모하신 경우 경품 발송 후 바로 파기)':'') : '경품 발송 후 바로 파기')
+    : '체험·상담 종료 후 6개월까지 보관 후 파기';
+  const checked = kind==='alert' ? S.alert.ok : S.iv.ok;
+  return `<div class="consent"><div class="doc"><b>개인정보 수집·이용 동의 (${esc(orgName())})</b><ul>
+    <li>목적: ${what}</li><li>항목: ${items}</li><li>보관 기간: ${keep}</li>
+    <li><b>위 목적 외의 다른 용도로는 사용하지 않으며, 제3자에게 제공하지 않습니다.</b></li>
+    <li>개인정보 처리 주체: ${esc(orgName())} · 궁금한 점은 화면 아래 「문의하기」로 남겨 주세요</li>
+    <li>동의하지 않으셔도 됩니다. 동의하지 않으시면 ${kind==='alert'?'출시 알림·추첨만 빠지며, 설문은 그대로 제출하실 수 있습니다':'체험·상담 신청만 접수되지 않습니다'}.</li></ul></div>
+    <label class="chk"><input type="checkbox" data-consent="${kind}" ${checked?'checked':''}> 위 내용을 확인했고 동의합니다</label></div>`;
+}
+function alertHTML(){
+  const raf = wantRaffle(), rel = wantRel();
+  const lines = [];
+  if (PRIZE.until) lines.push(`· 기간: ${esc(PRIZE.until)}까지 응답하신 분 중`);
+  lines.push(`· 방법: 연락처를 남겨 주신 분 중 무작위 ${PRIZE.count}명 추첨, ${esc(PRIZE.what)} 한 ${esc(PRIZE.unit)}씩`);
+  if (PRIZE.announce) lines.push(`· 발표: ${esc(PRIZE.announce)}, 개별 문자로 발송`);
+  lines.push('· 조건: 1인 1회, 중복 응답은 추첨에서 제외');
+  lines.push(`· 운영: ${esc(orgName())} · 문의는 화면 아래 「문의하기」`);
+  return `<div class="card" data-q="alertBox"><p class="q-label">연락받으실 번호를 남겨 주세요</p>
+    <p class="q-help">${[rel?'출시 소식':'', raf?'추첨 결과':''].filter(Boolean).join('과 ')}를 이 번호로 보내 드려요.</p>
+    ${raf?`<div class="notice" style="margin:0 0 4px"><b>☕ ${esc(prizeTxt())} 추첨 안내</b><br>${lines.join('<br>')}</div>`:''}
+    <div class="field"><label>닉네임 (선택)</label><input type="text" data-a="nick" maxlength="30" placeholder="예: 바퀴 지킴이" value="${esc(S.alert.nick)}"></div>
+    <div class="field"><label>휴대전화 번호</label><input type="tel" data-a="phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" value="${esc(S.alert.phone)}"></div>
+    ${consentHTML('alert')}<p class="q-err" id="alertErr"></p></div>`;
+}
+
+/* 제출 완료 화면 */
+function doneHTML(){
+  const st = S.send.state;
+  let h = '';
+  if (st==='sending'){
+    h += `<div class="done"><div class="spin"></div><h2>보내는 중이에요</h2><p>잠시만 기다려 주세요. 창을 닫지 말아 주세요.</p></div>`;
+  } else if (st==='fail'){
+    h += `<div class="done"><div class="ok bad"></div><h2>제출이 아직 확인되지 않았어요</h2>
+      <p>인터넷 연결이 잠깐 끊겼을 수 있어요. 적어 주신 답은 그대로 남아 있으니 아래 단추를 눌러 다시 보내 주세요.</p>
+      <button class="btn pri" id="retry" type="button" style="width:100%;margin-top:8px">다시 보내기</button>
+      <p class="receipt">접수번호 <b>${S.id}</b></p></div>`;
+  } else {
+    h += `<div class="done"><div class="ok"></div>
+      <h2>제출이 완료되었습니다</h2>
+      <p class="warm">소중한 시간 내어 주셔서 정말 감사합니다.<br>보내 주신 경험이 피오티랩의<br><b>더 안전한 휠체어</b>를 만드는 데 쓰입니다.</p>
+      <p>답 하나하나 꼼꼼히 읽고, 현장에서 정말 쓸모 있는 장치로 만들겠습니다.${wantRel()&&S.alert.ok?'<br>출시되면 가장 먼저 문자로 알려 드릴게요.':''}${wantRaffle()&&S.alert.ok?`<br>추첨 결과는 ${PRIZE.announce?esc(PRIZE.announce)+'에 ':''}문자로 알려 드릴게요. ☕`:''}</p>
+      <div class="receipt-box"><span>접수 확인</span><b>${S.id}</b><small>${esc(S.send.at)} 접수</small></div>
+      </div>`;
+    h += ivHTML();
+    h += aboutHTML('피오티랩이 더 궁금하시다면');
+  }
+  h += foot();
+  return h;
+}
+function ivHTML(){
+  if (!IV_ON) return '';
+  if (S.iv.state==='ok'){
+    return `<div class="iv-done"><div class="ok small"></div><div><b>시제품 체험·도입 상담 신청이 접수되었습니다</b><p>신청해 주셔서 감사합니다. 시제품이 준비되는 대로 개별로 연락드리겠습니다.</p></div></div>`;
+  }
+  const sending = S.iv.state==='sending';
+  const types = ['개인으로 써 보기','기관 도입 상담','둘 다'];
+  return `<details class="iv" ${S.iv.want||S.iv.state?'open':''}><summary><span class="badge">모집</span>시제품을 먼저 써 보실 분을 찾고 있습니다<span class="arw">▾</span></summary>
+    <div class="body">
+      <div class="iv-pill"><span>시제품 체험</span><span>기관 도입 상담</span></div>
+      <p style="margin:0 0 6px;font-size:14.5px">장치를 실제 현장에서 써 보고 의견을 주실 분, 병원·시설에서 도입을 검토해 보실 분을 찾고 있습니다.</p>
+      <p style="margin:0;font-size:14.5px">관심 있으신 분은 아래 신청서를 보내 주세요. 시제품이 준비되는 대로 개별로 연락드리겠습니다.</p>
+      <div class="field"><label>신청 구분</label><div class="opts cols2" id="ivType">${types.map(t=>`<button type="button" class="opt${S.iv.type===t?' sel':''}" data-it="${t}"><span class="mk"></span><span class="tx"><b>${t}</b></span></button>`).join('')}</div></div>
+      <div class="field"><label>닉네임 또는 성함</label><input type="text" data-i="nick" maxlength="30" placeholder="예: 바퀴 지킴이" value="${esc(S.iv.nick||S.alert.nick||'')}"></div>
+      <div class="field"><label>휴대전화 번호</label><input type="tel" data-i="phone" inputmode="numeric" maxlength="13" placeholder="010-0000-0000" value="${esc(S.iv.phone||S.alert.phone)}"></div>
+      <div class="field"><label>소속 기관 (선택)</label><input type="text" data-i="org" maxlength="60" placeholder="예: ○○재활병원" value="${esc(S.iv.org)}"></div>
+      <p class="iv-carry">응답자 유형·이용 환경·사용 의향은 설문에 답해 주신 내용으로 함께 전달돼요. 다시 적지 않으셔도 됩니다.</p>
+      ${consentHTML('iv')}
+      <p class="q-err" id="ivErr" style="margin-top:10px;${S.iv.state==='fail'?'display:block':''}">${S.iv.state==='fail'?'신청이 아직 확인되지 않았어요. 다시 눌러 주세요.':''}</p>
+      <button class="btn warm" id="ivSend" type="button" ${sending?'disabled':''}>${sending?'보내는 중…':S.iv.state==='fail'?'다시 신청하기':'체험·상담 신청하기'}</button>
+    </div></details>`;
+}
+
+/* ───────── 동작 ───────── */
+function syncCard(card, id){
+  const q = Q[id];
+  const sel = q.type==='multi' ? (S.ans[id]||[]) : [S.ans[id]];
+  const full = q.type==='multi' && q.max && sel.length>=q.max;
+  card.querySelectorAll('.opt').forEach(b => {
+    const on = sel.includes(b.dataset.v);
+    b.classList.toggle('sel', on); b.classList.toggle('dim', !!full && !on);
+  });
+  card.querySelectorAll('.etc').forEach(e => e.classList.toggle('on', sel.includes(e.dataset.etc)));
+}
+function bind(){
+  document.querySelectorAll('[data-q]').forEach(card => {
+    const id = card.dataset.q, q = Q[id];
+    if (!q) return;
+    card.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      const v = b.dataset.v;
+      if (q.type==='single'){ S.ans[id] = v; }
+      else {
+        const arr = S.ans[id] || (S.ans[id]=[]);
+        const i = arr.indexOf(v);
+        if (i>=0) arr.splice(i,1);
+        else { if (q.max && arr.length>=q.max){ toast(`최대 ${q.max}개까지 고를 수 있어요`); return; } arr.push(v); }
+      }
+      card.classList.remove('bad');
+      if (DEPENDS[id]){ const y=window.scrollY; render(false); window.scrollTo(0,y); }
+      else syncCard(card, id);
+      const etc = (DEPENDS[id] ? document.querySelector(`[data-q="${id}"]`) : card).querySelector(`.etc.on[data-etc="${CSS.escape(v)}"] input`);
+      if (etc && !etc.value) etc.focus({preventScroll:true});
+    });
+    card.querySelectorAll('.etc input').forEach(inp => inp.oninput = () => { S.etc[id+'|'+inp.closest('.etc').dataset.etc] = inp.value; });
+    card.querySelectorAll('.scale button').forEach(b => b.onclick = () => { S.ans[id] = Number(b.dataset.v); card.classList.remove('bad'); card.querySelectorAll('.scale button').forEach(x=>x.classList.toggle('sel',x===b)); });
+    card.querySelectorAll('textarea').forEach(t => t.oninput = () => { S.ans[id] = t.value; });
+  });
+  document.querySelectorAll('[data-a]').forEach(i => i.oninput = () => { S.alert[i.dataset.a] = i.dataset.a==='phone' ? fmtPhone(i) : i.value; const b=document.querySelector('[data-q="alertBox"]'); if(b) b.classList.remove('bad'); });
+  document.querySelectorAll('[data-i]').forEach(i => i.oninput = () => { S.iv[i.dataset.i] = i.dataset.i==='phone' ? fmtPhone(i) : i.value; const e=$('#ivErr'); if(e) e.style.display='none'; });
+  document.querySelectorAll('[data-it]').forEach(b => b.onclick = () => { S.iv.type = b.dataset.it; document.querySelectorAll('[data-it]').forEach(x=>x.classList.toggle('sel',x===b)); const e=$('#ivErr'); if(e) e.style.display='none'; });
+  document.querySelectorAll('[data-consent]').forEach(c => c.onchange = () => { (c.dataset.consent==='alert'?S.alert:S.iv).ok = c.checked; if(c.dataset.consent==='alert'){ const b=document.querySelector('[data-q="alertBox"]'); if(b) b.classList.remove('bad'); } const e=$('#ivErr'); if(e && c.dataset.consent==='iv') e.style.display='none'; });
+  const det = document.querySelector('details.iv');
+  if (det) det.ontoggle = () => { if (det.open){ S.iv.want = true; if(!S.iv.nick) S.iv.nick=S.alert.nick||''; if(!S.iv.phone) S.iv.phone=S.alert.phone; } };
+  const ivb = $('#ivSend'); if (ivb) ivb.onclick = sendIv;
+  const rt = $('#retry'); if (rt) rt.onclick = send;
+}
+function fmtPhone(inp){
+  const d = inp.value.replace(/\D/g,'').slice(0,11);
+  const v = d.length<4 ? d : d.length<8 ? d.slice(0,3)+'-'+d.slice(3) : d.slice(0,3)+'-'+d.slice(3,d.length-4)+'-'+d.slice(-4);
+  inp.value = v; return v;
+}
+const phoneOk = p => /^01[016789]-?\d{3,4}-?\d{4}$/.test(p||'');
+
+function check(){
+  const key = flow()[S.idx], pg = P[key];
+  if (!pg.qs) return true;
+  let first = null;
+  pg.qs.forEach(id => {
+    const q = Q[id]; if (!vis(id) || !q.req) return;
+    const v = S.ans[id];
+    let ok = q.type==='multi' ? (v && v.length) : (v!==undefined && v!=='');
+    let etcMiss = false;
+    if (ok && (q.type==='single'||q.type==='multi')){
+      const chosen = q.type==='single' ? [v] : v;
+      q.opts.map(ot).forEach(o => { if (o.input && chosen.includes(o.t) && !(S.etc[id+'|'+o.t]||'').trim()) { ok = false; etcMiss = true; } });
+    }
+    const card = document.querySelector(`[data-q="${id}"]`);
+    if (!ok){ card.classList.add('bad'); card.querySelector('.q-err').textContent = etcMiss?'「기타」 내용을 적어 주세요.':'답을 골라 주세요.'; first = first||card; }
+  });
+  if (key===LAST && wantsContact()){
+    const box = document.querySelector('[data-q="alertBox"]'), e = $('#alertErr');
+    let msg = '';
+    if (!phoneOk(S.alert.phone)) msg='휴대전화 번호를 확인해 주세요.';
+    else if (!S.alert.ok) msg='번호를 남기시려면 개인정보 동의가 필요해요. 원하지 않으시면 위에서 「괜찮아요」를 골라 주세요.';
+    if (msg){ box.classList.add('bad'); e.textContent=msg; first=first||box; } else box.classList.remove('bad');
+  }
+  if (first){ first.scrollIntoView({behavior:'smooth',block:'center'}); return false; }
+  return true;
+}
+
+/* ───────── 보내기 ───────── */
+function val(id){
+  const q=Q[id]; if (!vis(id)) return '';
+  const v=S.ans[id]; if (v===undefined) return '';
+  if (q.type==='single'){ const e=S.etc[id+'|'+v]; return e&&e.trim() ? `${v}: ${e.trim()}` : v; }
+  if (q.type==='multi') return v.map(x=>{ const e=S.etc[id+'|'+x]; return e&&e.trim()?`${x}(${e.trim()})`:x; }).join(', ');
+  return v;
+}
+/* 이 사람에게 실제로 보여 준 문항인가 (안 보여 준 칸은 빈칸 = 「안 물음」, 0 = 「물었는데 안 고름」) */
+function asked(id){
+  if (!vis(id)) return false;
+  if (Q[id].br) return grp()===Q[id].br;
+  return true;
+}
+function buildMain(){
+  const pairs = [['응답ID',S.id],['시각',nowKST()]];
+  Object.keys(Q).forEach(id => {
+    const q=Q[id];
+    if (id==='R' && !PRIZE.on) return;
+    const on=asked(id);
+    if (q.type==='multi'){
+      const sel = S.ans[id]||[];
+      q.opts.map(ot).forEach(o => {
+        pairs.push([`${q.col}: ${o.t}`, on ? (sel.includes(o.t)?1:0) : '']);
+        if (o.input) pairs.push([`${q.col}: ${o.t} (적은 내용)`, on && sel.includes(o.t) ? (S.etc[id+'|'+o.t]||'').trim() : '']);
+      });
+    } else pairs.push([q.col, on ? val(id) : '']);
+  });
+  const sec = S.t0 ? Math.round((Date.now()-S.t0)/1000) : '';
+  pairs.push(['소요(초)', sec]);
+  pairs.push(['응답 품질', sec!=='' && sec<FAST_SEC ? `확인 필요(${FAST_SEC}초 미만)` : '정상']);
+  pairs.push(['기기', /Mobi|Android|iPhone/i.test(navigator.userAgent) ? '모바일' : 'PC']);
+  pairs.push(['유입', new URLSearchParams(location.search).get('from') || '']);
+  return pairs;
+}
+function payload(){
+  const d = { kind:'main', id:S.id, main:buildMain() };
+  if (wantsContact() && S.alert.ok) d.alert = [['시각',nowKST()],['응답ID',S.id],['닉네임',(S.alert.nick||'').trim()],['연락처',S.alert.phone],['응답자 유형',val('q1')],
+    ['출시 알림', wantRel()?'예':'아니오'],['추첨 응모', wantRaffle()?'예':'아니오'],['동의','예']];
+  return d;
+}
+function ivPayload(){
+  return { kind:'iv', id:S.iv.id, iv:[['시각',nowKST()],['신청ID',S.iv.id],['응답ID',S.id],['신청 구분',S.iv.type],['닉네임',S.iv.nick.trim()],['연락처',S.iv.phone],
+    ['소속 기관',(S.iv.org||'').trim()],['응답자 유형',val('q1')],['이용 환경',val('q2')],['사용 의향',val('q9')],['동의','예']] };
+}
+function jsonp(url){
+  return new Promise((res,rej)=>{
+    const cb='cb_'+Date.now()+'_'+Math.floor(Math.random()*1e5), s=document.createElement('script');
+    const t=setTimeout(()=>{clean();rej(new Error('timeout'))},12000);
+    function clean(){clearTimeout(t);try{delete window[cb]}catch(e){window[cb]=undefined}s.remove();}
+    window[cb]=d=>{clean();res(d)};
+    s.onerror=()=>{clean();rej(new Error('net'))};
+    s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
+    document.body.appendChild(s);
+  });
+}
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+/* 보내고 → 시트에 실제로 들어갔는지 확인될 때까지 묻기 (최대 약 40초, 중복은 서버가 막음) */
+async function postAndConfirm(body, kind, id){
+  if (/PASTE_/.test(SCRIPT_URL)){ toast('SCRIPT_URL 이 아직 설정되지 않았어요 (관리자 확인 필요)'); return false; }
+  const waits = [1500,2000,3000,4000,5000,6000,8000];
+  for (let attempt=0; attempt<2; attempt++){
+    try{ await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body}); }catch(e){}
+    for (const w of (attempt ? waits.slice(2) : waits.slice(0,5))){
+      await sleep(w);
+      try{ const r = await jsonp(`${SCRIPT_URL}?action=check&kind=${kind}&id=${encodeURIComponent(id)}`); if (r && r.found) return true; }catch(e){}
+    }
+  }
+  return false;
+}
+async function send(){
+  S.send.state='sending'; S.idx = flow().length-1; render(); window.scrollTo(0,0);
+  const ok = await postAndConfirm(JSON.stringify(payload()), 'main', S.id);
+  S.send.state = ok ? 'ok' : 'fail'; S.send.at = nowKST();
+  render(); window.scrollTo(0,0);
+}
+async function sendIv(){
+  const e = $('#ivErr'); let msg='';
+  if (!S.iv.type) msg='신청 구분을 골라 주세요.';
+  else if (!(S.iv.nick||'').trim()) msg='닉네임 또는 성함을 적어 주세요.';
+  else if (!phoneOk(S.iv.phone)) msg='휴대전화 번호를 확인해 주세요.';
+  else if (!S.iv.ok) msg='체험·상담 신청에는 개인정보 동의가 필요해요.';
+  if (msg){ e.textContent=msg; e.style.display='block'; return; }
+  if (!S.iv.id) S.iv.id = 'I'+S.id.slice(1);
+  S.iv.state='sending'; render(false);
+  const ok = await postAndConfirm(JSON.stringify(ivPayload()), 'iv', S.iv.id);
+  S.iv.state = ok ? 'ok' : 'fail'; render(false);
+  const box = document.querySelector('.iv-done, details.iv'); if (box) box.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+$('#next').onclick = () => {
+  const f=flow();
+  if (!check()) return;
+  if (f[S.idx]===LAST){ send(); return; }
+  if (f[S.idx]==='intro' && !S.t0) S.t0 = Date.now();
+  S.idx = Math.min(S.idx+1, f.length-1); render(); window.scrollTo(0,0);
+};
+/* 문의하기 */
+function openAsk(){ $('#askBg').hidden=false; setTimeout(()=>$('#askText').focus(),50); }
+function closeAsk(){ $('#askBg').hidden=true; }
+$('#askBg').onclick = e => { if (e.target.id==='askBg') closeAsk(); };
+$('#askText').oninput = () => { $('#askErr').textContent=''; };
+$('#askSend').onclick = async () => {
+  const text = $('#askText').value.trim(), reply = $('#askReply').value.trim(), err = $('#askErr');
+  if (text.length < 2){ err.textContent='문의 내용을 적어 주세요.'; return; }
+  err.textContent=''; const b=$('#askSend'); b.disabled=true; b.textContent='보내는 중…';
+  const id = 'Q'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();
+  const body = JSON.stringify({kind:'ask', id, ask:[['시각',nowKST()],['문의ID',id],['응답ID',S.id],['응답자 유형',val('q1')],['내용',text],['답변 연락처',reply]]});
+  const ok = await postAndConfirm(body,'ask',id);
+  if (ok){ $('#askBody').innerHTML='<p style="margin:6px 0 4px;font-weight:700">문의가 접수되었습니다</p><p class="q-help" style="margin:0">확인 후 답변드리겠습니다. 감사합니다.</p><button type="button" class="btn ghost" style="width:100%;margin-top:14px" onclick="closeAsk()">닫기</button>'; }
+  else { b.disabled=false; b.textContent='다시 보내기'; err.textContent='전송이 확인되지 않았어요. 잠시 후 다시 눌러 주세요.'; }
+};
+$('#prev').onclick = () => { S.idx = Math.max(S.idx-1,0); render(); window.scrollTo(0,0); };
+window.addEventListener('beforeunload', e => { if (S.send.state==='sending' || S.iv.state==='sending'){ e.preventDefault(); e.returnValue=''; } });
+$('#brandTop').innerHTML = brandHTML();
+if (PRIZE.on){ const c=$('#topChip'); c.hidden=false; c.textContent='☕ '+prizeTxt()+' 추첨'; }
+render();
+</script>
+</body>
+</html>
